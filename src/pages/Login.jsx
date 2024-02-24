@@ -3,7 +3,6 @@ import avatar from '../images/file_profile.png';
 const Login = () => {
   return (
     <div className='formContainer'>
-      {' '}
       <div className='formWrapper'>
         <span className='logo'>ONCHAT</span>
         <span className='title'>Login</span>
