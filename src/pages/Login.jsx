@@ -1,5 +1,5 @@
 import React from 'react';
-import avatar from '../images/file_profile.png';
+// import avatar from '../images/file_profile.png';
 const Login = () => {
   return (
     <div className='formContainer'>
