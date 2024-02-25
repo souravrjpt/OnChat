@@ -1,3 +1,21 @@
+@mixin mobile {
+  @media screen and (max-width: 480px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media screen and (max-width: 760px) {
+    @content;
+  }
+}
+
+@mixin laptop {
+  @media screen and (max-width: 1220px) {
+    @content;
+  }
+}
+
 .formContainer {
   background-color: #a7bcff;
   height: 100vh;
@@ -72,7 +90,9 @@
     height: 80%;
     display: flex;
     overflow: hidden;
-
+    @include tablet {
+      width: 90%;
+    }
     .sidebar {
       flex: 1;
       border-right: 1px solid rgb(155, 159, 233);
@@ -83,10 +103,12 @@
         .searchForm {
           padding: 10px;
           input {
+            height: 30px;
             background-color: transparent;
             border: none;
             color: white;
             outline: none;
+
             &::placeholder {
               color: lightgray;
             }
@@ -130,6 +152,9 @@
         color: white;
         .logo {
           font-weight: bold;
+          @include tablet {
+            display: none;
+          }
         }
         .user {
           display: flex;
@@ -179,6 +204,55 @@
         background-color: #ddddf7;
         padding: 10px;
         height: calc(100% - 150px);
+
+        // overflow: scroll;
+        overflow-y: scroll;
+
+        .message {
+          display: flex;
+          gap: 20px;
+          margin-bottom: 20px;
+          .messageInfo {
+            display: flex;
+            flex-direction: column;
+            color: gray;
+            font-weight: 300;
+            img {
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              object-fit: cover;
+            }
+          }
+          .messageContent {
+            max-width: 80%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            p {
+              background-color: white;
+              padding: 10px 20px;
+              border-radius: 0px 10px 10px 10px;
+              max-width: max-content;
+            }
+
+            img {
+              width: 20%;
+            }
+          }
+          &.owner {
+            flex-direction: row-reverse;
+            .messageContent {
+              align-items: flex-end;
+              p {
+                background-color: #8da4f1;
+                color: white;
+                border-radius: 10px 0px 10px 10px;
+              }
+            }
+          }
+        }
       }
       .input {
         height: 40px;
@@ -193,9 +267,6 @@
           border: none;
           outline: none;
           font-size: 18px;
-          &::placeholder {
-            color: lightgray;
-          }
         }
         .send {
           display: flex;
@@ -207,6 +278,12 @@
             background-color: #7370bc;
             border: none;
             border-radius: 10px;
+            color: white;
+            font-weight: bold;
+          }
+          img {
+            height: 24px;
+            cursor: pointer;
           }
         }
       }
