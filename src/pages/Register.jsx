@@ -1,13 +1,55 @@
-import React from 'react';
-// import avatar from '../images/file_profile.png';
+import React, { useState } from 'react';
+import avatar from '../images/file_profile.png';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { auth, storage } from '../firebase';
+
 const Register = () => {
+  const [err, setErr] = useState(false);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const displayName = e.target[0].value;
+    const email = e.target[1].value;
+    const password = e.target[2].value;
+    const file = e.target[3].files[0];
+
+    try {
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+
+      const storageRef = ref(storage, displayName);
+
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      // Register three observers:
+      // 1. 'state_changed' observer, called any time the state changes
+      // 2. Error observer, called on failure
+      // 3. Completion observer, called on successful completion
+      uploadTask.on(
+        (error) => {
+          setErr(true);
+          // Handle unsuccessful uploads
+        },
+        () => {
+          // Handle successful uploads on complete
+          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            await updateProfile(res.user, {
+              displayName,
+              photoURL: downloadURL,
+            });
+          });
+        }
+      );
+    } catch (err) {
+      setErr(true);
+    }
+  };
   return (
     <div className='formContainer'>
-      {' '}
       <div className='formWrapper'>
         <span className='logo'>ONCHAT</span>
         <span className='title'>Register</span>
-        <form>
+        <form onSubmit={handleSubmit}>
           <input type='text' placeholder='display name' />
           <input type='email' placeholder='email' />
           <input type='password' placeholder='password' />
@@ -17,6 +59,7 @@ const Register = () => {
             <span>Add your avatar</span>
           </label>
           <button>Sign up</button>
+          {err && <span>Something went wrong</span>}
         </form>
         <p>You do have an account? Login</p>
       </div>

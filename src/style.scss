@@ -47,9 +47,11 @@
       flex-direction: column;
       gap: 15px;
       input {
-        padding: 15px;
+        font-size: 15px;
+        padding: 10px;
         border: none;
         border-bottom: 1px solid #a7bcff;
+        outline: none;
         &::placeholder {
           color: rgb(175, 175, 175);
         }
@@ -98,6 +100,7 @@
       border-right: 1px solid rgb(155, 159, 233);
       background-color: rgb(155, 159, 233);
       // border-radius: 10px;
+      position: relative;
       .search {
         border-bottom: 1px solid gray;
         .searchForm {
@@ -116,7 +119,7 @@
         }
       }
       .userChat {
-        padding: 10px;
+        padding: 5px;
         display: flex;
         align-items: center;
         gap: 10px;
@@ -126,8 +129,8 @@
           background-color: #7f7cc3;
         }
         img {
-          width: 50px;
-          height: 50px;
+          width: 30px;
+          height: 30px;
           border-radius: 50%;
           object-fit: cover;
         }
@@ -176,6 +179,10 @@
             cursor: pointer;
             padding: 7px;
             border-radius: 5px;
+            @include tablet {
+              position: absolute;
+              bottom: 10px;
+            }
           }
         }
       }
