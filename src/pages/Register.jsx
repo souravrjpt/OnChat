@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import avatar from '../images/file_profile.png';
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth, db, storage } from '../firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { doc, setDoc } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [err, setErr] = useState(false);
-
-  const navigate = useNavigate();
+  let navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,18 +24,11 @@ const Register = () => {
 
       const uploadTask = uploadBytesResumable(storageRef, file);
 
-      // Register three observers:
-      // 1. 'state_changed' observer, called any time the state changes
-      // 2. Error observer, called on failure
-      // 3. Completion observer, called on successful completion
       uploadTask.on(
         (error) => {
           setErr(true);
-          // Handle unsuccessful uploads
         },
         () => {
-          // Handle successful uploads on complete
-          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
             await updateProfile(res.user, {
               displayName,
@@ -50,14 +42,16 @@ const Register = () => {
               photoURL: downloadURL,
             });
             await setDoc(doc(db, 'userChats', res.user.uid), {});
-            navigate("/");
-          });
+            navigate('/');
+            console.log('navigated to homepage');
+          }); 
         }
       );
     } catch (err) {
       setErr(true);
     }
   };
+
   return (
     <div className='formContainer'>
       <div className='formWrapper'>
@@ -74,6 +68,8 @@ const Register = () => {
           </label>
           <button>Sign up</button>
           {err && <span>Something went wrong</span>}
+
+          {/* {err && <Navigate to={'/'} replace={true} />} */}
         </form>
         <p>You do have an account? Login</p>
       </div>
