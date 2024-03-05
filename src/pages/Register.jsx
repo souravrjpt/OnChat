@@ -4,7 +4,8 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth, db, storage } from '../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { doc, setDoc } from 'firebase/firestore';
-import { Navigate, useNavigate } from 'react-router-dom';
+// import { addDoc, collection } from "firebase/firestore";
+import { Navigate, useNavigate, Link } from 'react-router-dom';
 
 const Register = () => {
   const [err, setErr] = useState(false);
@@ -19,7 +20,7 @@ const Register = () => {
 
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
-
+      console.log(res.user);
       const storageRef = ref(storage, displayName);
 
       const uploadTask = uploadBytesResumable(storageRef, file);
@@ -34,17 +35,23 @@ const Register = () => {
               displayName,
               photoURL: downloadURL,
             });
-
+            // console.log(res.user)
+            // try{
             await setDoc(doc(db, 'users', res.user.uid), {
               uid: res.user.uid,
               displayName,
               email,
               photoURL: downloadURL,
             });
+            // }
+            // catch(err)
+            // {
+            //   console.log("not able to set doc: ",err);
+            // }
             await setDoc(doc(db, 'userChats', res.user.uid), {});
             navigate('/');
             console.log('navigated to homepage');
-          }); 
+          });
         }
       );
     } catch (err) {
@@ -71,7 +78,9 @@ const Register = () => {
 
           {/* {err && <Navigate to={'/'} replace={true} />} */}
         </form>
-        <p>You do have an account? Login</p>
+        <p>
+          You do have an account?<Link to='/login'>Login</Link>{' '}
+        </p>
       </div>
     </div>
   );
