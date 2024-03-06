@@ -30,7 +30,6 @@ const Input = () => {
 
       uploadTask.on(
         (error) => {
-          //TODO:Handle Error
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
@@ -56,21 +55,21 @@ const Input = () => {
         }),
       });
     }
-
+    
     await updateDoc(doc(db, "userChats", currentUser.uid), {
       [data.chatId + ".lastMessage"]: {
         text,
       },
       [data.chatId + ".date"]: serverTimestamp(),
     });
-
+    
     await updateDoc(doc(db, "userChats", data.user.uid), {
       [data.chatId + ".lastMessage"]: {
         text,
       },
       [data.chatId + ".date"]: serverTimestamp(),
     });
-
+    
     setText("");
     setImg(null);
   }

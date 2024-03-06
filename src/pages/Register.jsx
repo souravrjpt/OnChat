@@ -9,7 +9,7 @@ import { Navigate, useNavigate, Link } from 'react-router-dom';
 
 const Register = () => {
   const [err, setErr] = useState(false);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
