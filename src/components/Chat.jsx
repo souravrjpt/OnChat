@@ -1,12 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Add from '../images/add.png';
 import Cam from '../images/camera.png';
 import Vid from '../images/video.png';
 import Messages from './Messages';
 import Input from './Input';
 import { ChatContext } from '../context/ChatContext';
+import { Link } from 'react-router-dom';
+import { LiveStreamingMode } from '@zegocloud/zego-uikit-prebuilt';
 
 const Chat = () => {
+  const [vid, setVid] = useState('');
+
   const { data } = useContext(ChatContext);
   return (
     <div className='chat'>
@@ -15,7 +19,9 @@ const Chat = () => {
         <div className='chatIcons'>
           <img src={Add} alt='' />
           <img src={Cam} alt='' />
-          <img src={Vid} alt='' />
+          <Link to="/videopage">
+            <img src={Vid} />
+          </Link>
         </div>
       </div>
       <Messages />

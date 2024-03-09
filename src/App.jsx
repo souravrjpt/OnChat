@@ -5,6 +5,8 @@ import Register from './pages/Register';
 import './style.scss';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
+import VideoPage from './pages/Video';
+import Roompage from './room/zego';
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -31,6 +33,8 @@ function App() {
           />
           <Route path='login' element={<Login />} />
           <Route path='register' element={<Register />} />
+          <Route path='videopage' element={<VideoPage/>}/>
+          <Route path='/room/:roomId' element={<Roompage/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

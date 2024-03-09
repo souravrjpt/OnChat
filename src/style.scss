@@ -307,3 +307,24 @@
     }
   }
 }
+.videopage {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 30px;
+  input {
+    font-size: large;
+    width: 200px;
+    height: 40px;
+    border-radius: 5px;
+    border-color: #33e854;
+  }
+  button {
+    width: 70px;
+    background-color: #35d620;
+    border-radius: 10px;
+    font-weight: bold;
+    color: whitesmoke;
+    font-size: large;
+  }
+}
